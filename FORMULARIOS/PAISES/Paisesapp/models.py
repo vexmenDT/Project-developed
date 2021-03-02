@@ -1,13 +1,23 @@
 from django.db import models
 
 class Paises (models.Model):
-    NombreP = models.CharField(max_length=50)
+    nombre = models.CharField(max_length=50)
+    def __str__(self):
+        return self.nombre
+
 
 class Estados (models.Model):
-    NombreE= models.CharField(max_length=50)
-    Pais= models.ForeignKey(Paises,on_delete=models.CASCADE)
+    nombre= models.CharField(max_length=50)
+    pais= models.ForeignKey(Paises,on_delete=models.CASCADE)
 
-    def __init__(self):
+    def __str__(self):
+        return self.nombre
 
-        return self
+class Alumnos(models.Model):
+    nombre= models.CharField(max_length=50)
+    pais = models.ForeignKey(Paises, on_delete=models.CASCADE)
+    estado = models.ForeignKey(Estados, on_delete=models.CASCADE)
+
+
+
 # Create your models here.

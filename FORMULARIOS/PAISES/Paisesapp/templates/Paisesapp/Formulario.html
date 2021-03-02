@@ -1,0 +1,88 @@
+{%extends 'index.html'%}
+{% load crispy_forms_tags %}
+{%block content%}
+<h2>ALUMNOS Y VISTAS</h2>
+
+
+<div class="card text-center" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+
+
+
+<form method="post" id="personForm" data-cities-url="{% url 'ajax_load_cities' %}">
+{% csrf_token %}
+
+{{data | crispy}}
+    <button class="btn btn-info" type="submit">ENVIAR</button>
+</form>
+
+  </div>
+</div>
+
+
+
+
+
+
+<table class="table">
+
+  <thead>
+    <tr>
+      <th scope="col">#ID</th>
+
+      <th scope="col">NOMBRE Estudiante</th>
+      <th scope="col">NOMBRE Estado</th>
+      <th scope="col">NOMBRE PAIS</th>
+    </tr>
+  </thead>
+        {%for i in info%}
+  <tbody>
+    <tr>
+      <th scope="row">{{i.id}}</th>
+
+      <td>{{i.nombre}}</td>
+      <td>{{i.pais}}</td>
+      <td>{{i.estado}}</td>
+
+    </tr>
+  </tbody>
+    {%endfor%}
+</table>
+
+
+{%block js%}
+
+ <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#id_pais").change(function () {
+        const url = $("#personForm").attr("data-cities-url");
+        const paisId = $(this).val();
+
+        $.ajax({
+            url: url,
+            data: {
+                'pais_id': paisId
+            },
+            success: function (data) {
+                $("#id_estado").html(data);
+
+                let html_data = '<option value="">---------</option>';
+                data.forEach(function (estado) {
+                    html_data += `<option value="${estado.id}">${estado.nombre}</option>`
+                });
+                console.log(html_data);
+                $("#id_estado").html(html_data);
+
+            }
+        });
+
+    });
+  </script>
+
+{% endblock js %}
+
+
+
+{%endblock%}
+

@@ -1,0 +1,52 @@
+{%extends 'index.html'%}
+{% load crispy_forms_tags %}
+{%block content%}
+<h2>ESTADOS</h2>
+
+
+<div class="card text-center" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Special title treatment</h5>
+
+
+
+<form method="post">
+{% csrf_token %}
+
+{{data | crispy}}
+      <button class="btn btn-warning" type="submit">ENVIAR</button>
+</form>
+
+  </div>
+</div>
+
+
+<table class="table">
+
+  <thead>
+    <tr>
+      <th scope="col">#ID</th>
+      <th scope="col">NOMBRE Estado</th>
+      <th scope="col">NOMBRE PAIS</th>
+    </tr>
+  </thead>
+        {%for i in info%}
+  <tbody>
+    <tr>
+      <th scope="row">{{i.id}}</th>
+      <td>{{i.nombre}}</td>
+        <td>{{i.pais}}</td>
+
+    </tr>
+  </tbody>
+    {%endfor%}
+</table>
+
+
+{%block js%}
+{% endblock js %}
+
+
+
+{%endblock%}
+
